@@ -226,6 +226,7 @@ class SSP {
         $order = Libs_SSP::order( $request, $columns, $joinQuery );
         $where = Libs_SSP::filter( $request, $columns, $bindings, $joinQuery );
 
+        // IF Extra where set then set and prepare query
         if($extraWhere){
             $extraWhere = ($where) ? ' AND '.$extraWhere : ' WHERE '.$extraWhere;
         }
@@ -233,7 +234,7 @@ class SSP {
         // Main query to actually get the data
         if($joinQuery){
             
-            $col = Libs_SSP::pluckForJoin($columns, 'db');
+            $col = Libs_SSP::pluck($columns, 'db', $isJoin);
 
             $query =  "SELECT SQL_CALC_FOUND_ROWS ".implode(", ", $col)."
 			 $joinQuery
@@ -402,34 +403,15 @@ class SSP {
      *
      *  @param  array  $a    Array to get data from
      *  @param  string $prop Property to read
+     *  @param  bool  $isJoin  Determine the the JOIN/complex query or simple one
      *  @return array        Array of property values
      */
-    static function pluck ( $a, $prop )
+    static function pluck ( $a, $prop, $isJoin = false )
     {
         $out = array();
 
         for ( $i=0, $len=count($a) ; $i<$len ; $i++ ) {
-            $out[] = $a[$i][$prop];
-        }
-
-        return $out;
-    }
-
-    /**
-     * It's the same function as pluck but just added one check for Renaming column name while selection,
-     * Pull a particular property from each assoc. array in a numeric array
-     *
-     *  @param  array  $a    Array to get data from
-     *  @param  string $prop Property to read
-     *
-     *  @return array        Array of property values
-     */
-    static function pluckForJoin ( $a, $prop )
-    {
-        $out = array();
-
-        for ( $i=0, $len=count($a) ; $i<$len ; $i++ ) {
-            $out[] = isset($a[$i]['as']) ? $a[$i][$prop]. ' AS ' .$a[$i]['as'] : $a[$i][$prop];
+            $out[] = ($isJoin && isset($a[$i]['as'])) ? $a[$i][$prop]. ' AS '.$a[$i]['as'] : $a[$i][$prop];
         }
 
         return $out;
