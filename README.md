@@ -14,7 +14,21 @@ So due to allow complex query, I have changed the [SSP class](https://github.com
  - I have added option to ADD JOIN Query and make necessary changes.
  - I have changed Column ARRAY format to handle get data from multiple table. Add TWO new index for complex query handle.
 
+New formatted COLUMN Array
+===
+    $columns = array(
+        array( 'db' => '`c`.`id`', 'dt' => 0, 'field' => 'id' ),
+        array( 'db' => '`c`.`login`', 'dt' => 1 'field' => 'login' ),
+        array( 'db' => '`c`.`password`', 'dt' => 2, 'field' => 'password' ),
+        array( 'db' => '`c`.`name`', 'dt' => 3, 'field' => 'client_name', 'as' => 'client_name' ),
+        array( 'db' => '`cn`.`name`', 'dt' => 4, 'field' => 'name', 'as' => 'currency_name' )
 
+        array( 'db' => '`c`.`id_client`', 'dt' => 5,
+               'formatter' => function( $d, $row ) {
+                    return '<a href="EDIT_URL"><span class="label label-inverse"><i class="fa fa-edit"></i> Edit</span></a>
+                    <span class="label label-danger pointer" onclick="return deleteclient(\''.$d.'\', \''.$row[1].'\')"><i                    class="fa fa       -trash-o"></i> Delete</span>';
+                    }, 
+                'field' => 'id_client' )
 I have described the changes at [My personal blog](http://emranulhadi.wordpress.com/). You can see their to see details.
 
 Hope it will help... 
