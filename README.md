@@ -1,7 +1,6 @@
-ssp
-===
 
 Customized Server Side Processing (SSP) Class For [Datatables](http://datatables.net/) Library
+===
 
 While using Datatables I faced problem like these
 
@@ -14,8 +13,8 @@ So due to allow complex query, I have changed the [SSP class](https://github.com
  - I have added option to ADD JOIN Query and make necessary changes.
  - I have changed Column ARRAY format to handle get data from multiple table. Add TWO new index for complex query handle.
 
-New formatted COLUMN Array
-===
+### New formatted COLUMN Array #####
+
     $columns = array(
         array( 'db' => '`c`.`id`', 'dt' => 0, 'field' => 'id' ),
         array( 'db' => '`c`.`login`', 'dt' => 1 'field' => 'login' ),
@@ -31,5 +30,16 @@ New formatted COLUMN Array
                 'field' => 'id_client' )
 I have described the changes at [My personal blog](http://emranulhadi.wordpress.com/). You can see their to see details.
 
+
+### How to Use #####
+
+    $joinQuery = "FROM `{$table}` AS `c` LEFT JOIN `currency_names` AS `cn` ON (`cn`.`id` = `c`.`id_currency`)";
+    $extraCondition = "`id_client`=".$ID_CLIENT_VALUE;
+    
+    $Ssp = new Libs_SSP();
+    echo json_encode(
+            $Ssp::simple( $_GET, $sql_details, $table, $primaryKey, $columns, $joinQuery, $extraCondition)
+         );
+         
 Hope it will help... 
 Thanks
