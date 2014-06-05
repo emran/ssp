@@ -1,8 +1,11 @@
 
-##Customized Server Side Processing (SSP) Class For [Datatables](http://datatables.net/) Library
+##Customized SSP Class For [Datatables](http://datatables.net/) Library
 
 
-While using Datatables I faced problem like these
+SSP is a Server Side Processing class for [Datatables](http://datatables.net/) Library v1.10.0. 
+I have customized it for include JOIN, Extra WHERE, Rename acceptance within query.
+
+While using Datatables with complex query, I faced problem like these
 
  - Get Data from Multiple table not supported via Joining.
  - Extra Where, except filtering was not possible.
@@ -28,8 +31,6 @@ So due to allow complex query, I have changed the [SSP class](https://github.com
                     <span class="label label-danger pointer" onclick="return deleteclient(\''.$d.'\', \''.$row[1].'\')"><i                    class="fa fa       -trash-o"></i> Delete</span>';
                     }, 
                 'field' => 'id_client' )
-I have described the changes at [My personal blog](http://emranulhadi.wordpress.com/). You can see their to see details.
-
 
 ### How to Use #####
 
@@ -41,5 +42,8 @@ I have described the changes at [My personal blog](http://emranulhadi.wordpress.
             $Ssp::simple( $_GET, $sql_details, $table, $primaryKey, $columns, $joinQuery, $extraCondition)
          );
          
+
+I have described the changes at [My personal blog](http://emranulhadi.wordpress.com/). You can also check there to see details.
+
 Hope it will help... 
 Thanks
