@@ -3,7 +3,7 @@
 
 
 SSP is a Server Side Processing class for [Datatables](http://datatables.net/) Library v1.10.0. 
-I have customized it for include JOIN, Extra WHERE, Rename acceptance within query.
+I have customized it for include JOIN, Extra condition and Rename acceptance within query.
 
 While using Datatables with complex query, I faced problem like these
 
