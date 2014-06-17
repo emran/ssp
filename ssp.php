@@ -13,6 +13,8 @@
  * side processing requirements of DataTables.
  *
  * @license MIT - http://datatables.net/license_mit
+ *
+ * Customized By emranulhadi@gmail.com | http://emranulhadi.wordpress.com/
  */
 
 
