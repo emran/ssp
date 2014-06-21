@@ -38,7 +38,7 @@ So due to allow complex query, I have changed the [SSP class](https://github.com
     $extraCondition = "`id_client`=".$ID_CLIENT_VALUE;
     
     echo json_encode(
-           Libs_SSP::simple( $_GET, $sql_details, $table, $primaryKey, $columns, $joinQuery, $extraCondition)
+           SSP::simple( $_GET, $sql_details, $table, $primaryKey, $columns, $joinQuery, $extraCondition)
          );
          
 
