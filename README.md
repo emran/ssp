@@ -37,9 +37,8 @@ So due to allow complex query, I have changed the [SSP class](https://github.com
     $joinQuery = "FROM `{$table}` AS `c` LEFT JOIN `currency_names` AS `cn` ON (`cn`.`id` = `c`.`id_currency`)";
     $extraCondition = "`id_client`=".$ID_CLIENT_VALUE;
     
-    $Ssp = new Libs_SSP();
     echo json_encode(
-            $Ssp::simple( $_GET, $sql_details, $table, $primaryKey, $columns, $joinQuery, $extraCondition)
+           Libs_SSP::simple( $_GET, $sql_details, $table, $primaryKey, $columns, $joinQuery, $extraCondition)
          );
          
 
