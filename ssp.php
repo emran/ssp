@@ -218,7 +218,7 @@ class SSP {
      *  @return array  Server-side processing response array
      *
      */
-    static function simple ( $request, $sql_details, $table, $primaryKey, $columns, $joinQuery = NULL, $extraWhere = '')
+    static function simple ( $request, $sql_details, $table, $primaryKey, $columns, $joinQuery = NULL, $extraWhere = '', $groupBy = '')
     {
         $bindings = array();
         $db = SSP::sql_connect( $sql_details );
@@ -242,6 +242,7 @@ class SSP {
 			 $joinQuery
 			 $where
 			 $extraWhere
+             $groupBy
 			 $order
 			 $limit";
         }else{
@@ -249,7 +250,8 @@ class SSP {
 			 FROM `$table`
 			 $where
 			 $extraWhere
-			 $order
+			 $groupBy
+             $order
 			 $limit";
         }
 
