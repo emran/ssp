@@ -101,7 +101,7 @@ class SSP {
 
         if ( isset($request['order']) && count($request['order']) ) {
             $orderBy = array();
-            $dtColumns = Libs_SSP::pluck( $columns, 'dt' );
+            $dtColumns = SSP::pluck( $columns, 'dt' );
 
             for ( $i=0, $ien=count($request['order']) ; $i<$ien ; $i++ ) {
                 // Convert the column index into the column data property
@@ -147,7 +147,7 @@ class SSP {
     {
         $globalSearch = array();
         $columnSearch = array();
-        $dtColumns = Libs_SSP::pluck( $columns, 'dt' );
+        $dtColumns = SSP::pluck( $columns, 'dt' );
 
         if ( isset($request['search']) && $request['search']['value'] != '' ) {
             $str = $request['search']['value'];
@@ -158,7 +158,7 @@ class SSP {
                 $column = $columns[ $columnIdx ];
 
                 if ( $requestColumn['searchable'] == 'true' ) {
-                    $binding = Libs_SSP::bind( $bindings, '%'.$str.'%', PDO::PARAM_STR );
+                    $binding = SSP::bind( $bindings, '%'.$str.'%', PDO::PARAM_STR );
                     $globalSearch[] = ($isJoin) ? $column['db']." LIKE ".$binding : "`".$column['db']."` LIKE ".$binding;
                 }
             }
@@ -174,7 +174,7 @@ class SSP {
 
             if ( $requestColumn['searchable'] == 'true' &&
                 $str != '' ) {
-                $binding = Libs_SSP::bind( $bindings, '%'.$str.'%', PDO::PARAM_STR );
+                $binding = SSP::bind( $bindings, '%'.$str.'%', PDO::PARAM_STR );
                 $columnSearch[] = ($isJoin) ? $column['db']." LIKE ".$binding : "`".$column['db']."` LIKE ".$binding;
             }
         }
@@ -221,12 +221,12 @@ class SSP {
     static function simple ( $request, $sql_details, $table, $primaryKey, $columns, $joinQuery = NULL, $extraWhere = '')
     {
         $bindings = array();
-        $db = Libs_SSP::sql_connect( $sql_details );
+        $db = SSP::sql_connect( $sql_details );
 
         // Build the SQL query string from the request
-        $limit = Libs_SSP::limit( $request, $columns );
-        $order = Libs_SSP::order( $request, $columns, $joinQuery );
-        $where = Libs_SSP::filter( $request, $columns, $bindings, $joinQuery );
+        $limit = SSP::limit( $request, $columns );
+        $order = SSP::order( $request, $columns, $joinQuery );
+        $where = SSP::filter( $request, $columns, $bindings, $joinQuery );
 
         // IF Extra where set then set and prepare query
         if($extraWhere){
@@ -236,7 +236,7 @@ class SSP {
         // Main query to actually get the data
         if($joinQuery){
             
-            $col = Libs_SSP::pluck($columns, 'db', $joinQuery);
+            $col = SSP::pluck($columns, 'db', $joinQuery);
 
             $query =  "SELECT SQL_CALC_FOUND_ROWS ".implode(", ", $col)."
 			 $joinQuery
@@ -245,7 +245,7 @@ class SSP {
 			 $order
 			 $limit";
         }else{
-            $query =  "SELECT SQL_CALC_FOUND_ROWS `".implode("`, `", Libs_SSP::pluck($columns, 'db'))."`
+            $query =  "SELECT SQL_CALC_FOUND_ROWS `".implode("`, `", SSP::pluck($columns, 'db'))."`
 			 FROM `$table`
 			 $where
 			 $extraWhere
@@ -253,16 +253,16 @@ class SSP {
 			 $limit";
         }
 
-        $data = Libs_SSP::sql_exec( $db, $bindings,$query);
+        $data = SSP::sql_exec( $db, $bindings,$query);
 
         // Data set length after filtering
-        $resFilterLength = Libs_SSP::sql_exec( $db,
+        $resFilterLength = SSP::sql_exec( $db,
             "SELECT FOUND_ROWS()"
         );
         $recordsFiltered = $resFilterLength[0][0];
 
         // Total data set length
-        $resTotalLength = Libs_SSP::sql_exec( $db,
+        $resTotalLength = SSP::sql_exec( $db,
             "SELECT COUNT(`{$primaryKey}`)
 			 FROM   `$table`"
         );
@@ -276,7 +276,7 @@ class SSP {
             "draw"            => intval( $request['draw'] ),
             "recordsTotal"    => intval( $recordsTotal ),
             "recordsFiltered" => intval( $recordsFiltered ),
-            "data"            => Libs_SSP::data_output( $columns, $data, $joinQuery )
+            "data"            => SSP::data_output( $columns, $data, $joinQuery )
         );
     }
 
@@ -303,7 +303,7 @@ class SSP {
             );
         }
         catch (PDOException $e) {
-            Libs_SSP::fatal(
+            SSP::fatal(
                 "An error occurred while connecting to the database. ".
                 "The error reported by the server was: ".$e->getMessage()
             );
@@ -346,7 +346,7 @@ class SSP {
             $stmt->execute();
         }
         catch (PDOException $e) {
-            Libs_SSP::fatal( "An SQL error occurred: ".$e->getMessage() );
+            SSP::fatal( "An SQL error occurred: ".$e->getMessage() );
         }
 
         // Return all
