@@ -42,7 +42,7 @@ So due to allow complex query, I have changed the [SSP class](https://github.com
          );
          
 
-I have described the changes at [My personal blog](http://emranulhadi.wordpress.com/). You can also check there to see details.
+I have described the changes at [My personal blog](https://emranulhadi.wordpress.com/2014/06/05/join-and-extra-condition-support-at-datatables-library-ssp-class/). You can also check there to see details.
 
 Hope it will help... 
 Thanks
