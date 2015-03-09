@@ -26,7 +26,7 @@ So due to allow complex query, I have changed the [SSP class](https://github.com
         array( 'db' => '`c`.`login`',    'dt' => 1  'field' => 'login' ),
         array( 'db' => '`c`.`password`', 'dt' => 2, 'field' => 'password' ),
         array( 'db' => '`c`.`name`',     'dt' => 3, 'field' => 'client_name', 'as' => 'client_name' ),
-        array( 'db' => '`cn`.`name`',    'dt' => 4, 'field' => 'name',        'as' => 'currency_name' )
+        array( 'db' => '`cn`.`name`',    'dt' => 4, 'field' => 'currency_name','as' => 'currency_name' )
 
         array( 'db' => '`c`.`id_client`', 'dt' => 5, 'formatter' => function( $d, $row ) {
                     return '<a href="EDIT_URL"><span class="label label-inverse"><i class="fa fa-edit"></i> Edit</span></a>';}, 
