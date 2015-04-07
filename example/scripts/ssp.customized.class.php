@@ -298,6 +298,7 @@ class SSP {
                 $sql_details['pass'],
                 array( PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION )
             );
+            $db->query("SET NAMES 'utf8'");
         }
         catch (PDOException $e) {
             SSP::fatal(
