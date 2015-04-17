@@ -232,7 +232,7 @@ class SSP {
         if($extraWhere){
             $extraWhere = ($where) ? ' AND '.$extraWhere : ' WHERE '.$extraWhere;
         }
-
+        $groupBy = ($groupBy) ? ' GROUP BY '.$groupBy .' ' : '';
         // Main query to actually get the data
         if($joinQuery){
             

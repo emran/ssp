@@ -229,7 +229,9 @@ class SSP {
 		// IF Extra where set then set and prepare query
         if($extraWhere)
             $extraWhere = ($where) ? ' AND '.$extraWhere : ' WHERE '.$extraWhere;
-
+        
+        $groupBy = ($groupBy) ? ' GROUP BY '.$groupBy .' ' : '';
+        
         // Main query to actually get the data
         if($joinQuery){
             $col = SSP::pluck($columns, 'db', $joinQuery);
