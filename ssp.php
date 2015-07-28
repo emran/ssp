@@ -264,7 +264,7 @@ class SSP {
         $recordsFiltered = $resFilterLength[0][0];
 
          // Total data set length
-        $count_request = "SELECT COUNT(`{$primaryKey}`)";
+        $count_request = "SELECT COUNT({$primaryKey})";
         if($joinQuery){
           $count_request .= $joinQuery;
         } else {
