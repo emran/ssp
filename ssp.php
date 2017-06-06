@@ -49,10 +49,10 @@ class SSP {
 
                 // Is there a formatter?
                 if ( isset( $column['formatter'] ) ) {
-                    $row[ $column['dt'] ] = ($isJoin) ? $column['formatter']( $data[$i][ $column['field'] ], $data[$i] ) : $column['formatter']( $data[$i][ $column['db'] ], $data[$i] );
+                    $row[ $column['dt'] ] = ($isJoin) ? $column['formatter']( $data[$i][ $column['field'] ], $data[$i] ) : $column['formatter']( $data[$i][ $column['field'] ], $data[$i] );
                 }
                 else {
-                    $row[ $column['dt'] ] = htmlentities( ($isJoin) ? $data[$i][ $columns[$j]['field'] ] : $data[$i][ $columns[$j]['db'] ] );
+                    $row[ $column['dt'] ] = htmlentities( ($isJoin) ? $data[$i][ $columns[$j]['field'] ] : $data[$i][ $columns[$j]['field'] ] );
                 }
             }
 
@@ -116,7 +116,7 @@ class SSP {
                         'ASC' :
                         'DESC';
 
-                    $orderBy[] = ($isJoin) ? $column['db'].' '.$dir : '`'.$column['db'].'` '.$dir;
+                    $orderBy[] = ($isJoin) ? $column['field'].' '.$dir : '`'.$column['field'].'` '.$dir;
                 }
             }
 
