@@ -230,7 +230,7 @@ class SSP {
 
         // IF Extra where set then set and prepare query
         if($extraWhere){
-            $extraWhere = ($where) ? ' AND '.$extraWhere : ' WHERE '.$extraWhere;
+            $where = ($where) ? $where . ' AND ' . $extraWhere : ' WHERE ' . $extraWhere;
         }
         $groupBy = ($groupBy) ? ' GROUP BY '.$groupBy .' ' : '';
         // Main query to actually get the data
@@ -241,7 +241,6 @@ class SSP {
             $query =  "SELECT SQL_CALC_FOUND_ROWS ".implode(", ", $col)."
 			 $joinQuery
 			 $where
-			 $extraWhere
              $groupBy
 			 $order
 			 $limit";
@@ -249,7 +248,6 @@ class SSP {
             $query =  "SELECT SQL_CALC_FOUND_ROWS `".implode("`, `", SSP::pluck($columns, 'db'))."`
 			 FROM `$table`
 			 $where
-			 $extraWhere
 			 $groupBy
              $order
 			 $limit";
@@ -269,6 +267,9 @@ class SSP {
           $count_request .= $joinQuery;
         } else {
           $count_request .= "FROM   `$table`";
+        }
+        if ($extraWhere) {
+            $count_request .= ' WHERE ' . $extraWhere;
         }
         $resTotalLength = SSP::sql_exec( $db,$count_request);
         $recordsTotal = $resTotalLength[0][0];
