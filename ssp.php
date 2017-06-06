@@ -116,7 +116,8 @@ class SSP {
                         'ASC' :
                         'DESC';
 
-                    $orderBy[] = ($isJoin) ? $column['field'].' '.$dir : '`'.$column['field'].'` '.$dir;
+                    $orderField = !empty($column['orderField']) ? $column['orderField'] : $column['field'];
+                    $orderBy[] = $orderField . ' ' . $dir;
                 }
             }
 
