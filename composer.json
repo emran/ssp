@@ -1,0 +1,10 @@
+{
+    "name": "bev-ru/ssp",
+    "description": "Server Side Processing (SSP) Class For Datatables Library",
+    "license": "MIT",
+    "autoload":{
+        "classmap": [
+            "ssp.php"
+        ]
+    }
+}
