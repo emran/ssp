@@ -227,6 +227,7 @@ class SSP {
         $limit = SSP::limit( $request, $columns );
         $order = SSP::order( $request, $columns, $joinQuery );
         $where = SSP::filter( $request, $columns, $bindings, $joinQuery );
+        $useFilter = !empty($where);
 
         // IF Extra where set then set and prepare query
         if($extraWhere){
@@ -262,17 +263,21 @@ class SSP {
         $recordsFiltered = $resFilterLength[0][0];
 
          // Total data set length
-        $count_request = "SELECT COUNT(`{$primaryKey}`)";
-        if($joinQuery){
-          $count_request .= $joinQuery;
+        if ($useFilter) {
+            $count_request = "SELECT COUNT(`{$primaryKey}`)";
+            if ($joinQuery) {
+                $count_request .= $joinQuery;
+            } else {
+                $count_request .= "FROM   `$table`";
+            }
+            if ($extraWhere) {
+                $count_request .= ' WHERE ' . $extraWhere;
+            }
+            $resTotalLength = SSP::sql_exec($db, $count_request);
+            $recordsTotal = $resTotalLength[0][0];
         } else {
-          $count_request .= "FROM   `$table`";
+            $recordsTotal = $recordsFiltered;
         }
-        if ($extraWhere) {
-            $count_request .= ' WHERE ' . $extraWhere;
-        }
-        $resTotalLength = SSP::sql_exec( $db,$count_request);
-        $recordsTotal = $resTotalLength[0][0];
 
 
         /*
