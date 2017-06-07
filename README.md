@@ -22,15 +22,16 @@ So due to allow complex query, I have changed the [SSP class](https://github.com
 ### New formatted COLUMN Array #####
 
     $columns = array(
-        array( 'db' => '`c`.`id`',       'dt' => 0, 'field' => 'id' ),
-        array( 'db' => '`c`.`login`',    'dt' => 1  'field' => 'login' ),
-        array( 'db' => '`c`.`password`', 'dt' => 2, 'field' => 'password' ),
-        array( 'db' => '`c`.`name`',     'dt' => 3, 'field' => 'client_name', 'as' => 'client_name' ),
-        array( 'db' => '`cn`.`name`',    'dt' => 4, 'field' => 'currency_name','as' => 'currency_name' )
-
-        array( 'db' => '`c`.`id_client`', 'dt' => 5, 'formatter' => function( $d, $row ) {
-                    return '<a href="EDIT_URL"><span class="label label-inverse"><i class="fa fa-edit"></i> Edit</span></a>';}, 
-                'field' => 'id_client' )
+        array( 'db' => '`c`.`id`',       'dt' => 0),
+        array( 'db' => '`c`.`login`',    'dt' => 1),
+        array( 'db' => '`c`.`password`', 'dt' => 2),
+        array( 'db' => '`c`.`name`',     'dt' => 3, 'as' => 'client_name'),
+        array( 'db' => '`cn`.`name`',    'dt' => 4, 'as' => 'currency_name'),
+        array( 'db' => '`c`.`id_client`', 'dt' => 5,
+            'formatter' => function( $id, $row ) {
+                return '<a href="EDIT_URL"><span class="label label-inverse"><i class="fa fa-edit"></i> Edit</span></a>';
+            })
+    );
 
 ### How to Use #####
 

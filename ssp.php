@@ -32,12 +32,11 @@ class SSP {
      *
      * @param array $columns Column information array
      * @param array $data    Data from the SQL get
-     * @param bool  $isJoin  Determine the query is complex or simple one
      *
      * @return array Formatted data in a row based format
      */
 
-    static function data_output ( $columns, $data, $isJoin = false )
+    protected static function data_output($columns, $data)
     {
         $out = array();
 
@@ -48,11 +47,10 @@ class SSP {
                 $column = $columns[$j];
 
                 // Is there a formatter?
-                if ( isset( $column['formatter'] ) ) {
-                    $row[ $column['dt'] ] = ($isJoin) ? $column['formatter']( $data[$i][ $column['field'] ], $data[$i] ) : $column['formatter']( $data[$i][ $column['field'] ], $data[$i] );
-                }
-                else {
-                    $row[ $column['dt'] ] = htmlentities( ($isJoin) ? $data[$i][ $columns[$j]['field'] ] : $data[$i][ $columns[$j]['field'] ] );
+                if (isset($column['formatter'])) {
+                    $row[ $column['dt'] ] = $column['formatter']($data[$i][$j], $data[$i] );
+                } else {
+                    $row[ $column['dt'] ] = htmlentities($data[$i][$j]);
                 }
             }
 
@@ -116,7 +114,8 @@ class SSP {
                         'ASC' :
                         'DESC';
 
-                    $orderField = !empty($column['orderField']) ? $column['orderField'] : $column['field'];
+                    $orderField = !empty($column['orderField']) ? $column['orderField'] :
+                        ((isset($column['as'])) ? $column['as'] : $column['db']);
                     $orderBy[] = $orderField . ' ' . $dir;
                 }
             }
@@ -283,7 +282,7 @@ class SSP {
             "draw"            => intval( $request['draw'] ),
             "recordsTotal"    => intval( $recordsTotal ),
             "recordsFiltered" => intval( $recordsFiltered ),
-            "data"            => SSP::data_output( $columns, $data, $joinQuery )
+            "data"            => SSP::data_output( $columns, $data)
         );
     }
 
@@ -358,7 +357,7 @@ class SSP {
         }
 
         // Return all
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_NUM);
     }
 
 
