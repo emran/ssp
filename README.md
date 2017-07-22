@@ -17,7 +17,7 @@ So due to allow complex query, I have changed the [SSP class](https://github.com
  - I have changed Column ARRAY format to handle get data from multiple table. Add TWO new index for complex query handle.
  - Add Extra Where condition through SSP Class.
  - You can Group by the result via sending Query through simple function of SSP Class.
- ##### - You can use Having as well same like Group By
+ - You can use Having as well same like Group By
 
 
 ### New formatted COLUMN Array #####

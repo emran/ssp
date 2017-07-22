@@ -13,16 +13,14 @@
  * side processing requirements of DataTables.
  *
  * @license MIT - http://datatables.net/license_mit
- *
- * Customized By emranulhadi@gmail.com | http://emranulhadi.wordpress.com/
  */
 
 
 // REMOVE THIS BLOCK - used for DataTables test environment only!
-//$file = $_SERVER['DOCUMENT_ROOT'].'/datatables/mysql.php';
-//if ( is_file( $file ) ) {
-//    include( $file );
-//}
+// $file = $_SERVER['DOCUMENT_ROOT'].'/datatables/mysql.php';
+// if ( is_file( $file ) ) {
+//     include( $file );
+// }
 
 
 class SSP {
@@ -32,7 +30,7 @@ class SSP {
      *
      * @param array $columns Column information array
      * @param array $data    Data from the SQL get
-     * @param bool  $isJoin  Determine the query is complex or simple one
+     * @param bool  $isJoin  Determine the the JOIN/complex query or simple one
      *
      * @return array Formatted data in a row based format
      */
@@ -52,7 +50,7 @@ class SSP {
                     $row[ $column['dt'] ] = ($isJoin) ? $column['formatter']( $data[$i][ $column['field'] ], $data[$i] ) : $column['formatter']( $data[$i][ $column['db'] ], $data[$i] );
                 }
                 else {
-                    $row[ $column['dt'] ] = htmlentities( ($isJoin) ? $data[$i][ $columns[$j]['field'] ] : $data[$i][ $columns[$j]['db'] ] );
+                    $row[ $column['dt'] ] = ($isJoin) ? $data[$i][ $columns[$j]['field'] ] : $data[$i][ $columns[$j]['db'] ];
                 }
             }
 
@@ -91,7 +89,7 @@ class SSP {
      *
      *  @param  array $request Data sent to server by DataTables
      *  @param  array $columns Column information array
-     *  @param  bool  $isJoin  Determine the query is complex or simple one
+     *  @param bool  $isJoin  Determine the the JOIN/complex query or simple one
      *
      *  @return string SQL order by clause
      */
@@ -139,7 +137,7 @@ class SSP {
      *  @param  array $request Data sent to server by DataTables
      *  @param  array $columns Column information array
      *  @param  array $bindings Array of values for PDO bindings, used in the sql_exec() function
-     *  @param  bool  $isJoin  Determine the the query is complex or simple one
+     *  @param  bool  $isJoin  Determine the the JOIN/complex query or simple one
      *
      *  @return string SQL where clause
      */
@@ -214,11 +212,13 @@ class SSP {
      *  @param  array $columns Column information array
      *  @param  array $joinQuery Join query String
      *  @param  string $extraWhere Where query String
+     *  @param  string $groupBy groupBy by any field will apply
+     *  @param  string $having HAVING by any condition will apply
      *
      *  @return array  Server-side processing response array
      *
      */
-    static function simple ( $request, $sql_details, $table, $primaryKey, $columns, $joinQuery = NULL, $extraWhere = '', $groupBy = '')
+    static function simple ( $request, $sql_details, $table, $primaryKey, $columns, $joinQuery = NULL, $extraWhere = '', $groupBy = '', $having = '')
     {
         $bindings = array();
         $db = SSP::sql_connect( $sql_details );
@@ -228,21 +228,23 @@ class SSP {
         $order = SSP::order( $request, $columns, $joinQuery );
         $where = SSP::filter( $request, $columns, $bindings, $joinQuery );
 
-        // IF Extra where set then set and prepare query
-        if($extraWhere){
+		// IF Extra where set then set and prepare query
+        if($extraWhere)
             $extraWhere = ($where) ? ' AND '.$extraWhere : ' WHERE '.$extraWhere;
-        }
+
         $groupBy = ($groupBy) ? ' GROUP BY '.$groupBy .' ' : '';
+
+        $having = ($having) ? ' HAVING '.$having .' ' : '';
+
         // Main query to actually get the data
         if($joinQuery){
-            
             $col = SSP::pluck($columns, 'db', $joinQuery);
-
             $query =  "SELECT SQL_CALC_FOUND_ROWS ".implode(", ", $col)."
 			 $joinQuery
 			 $where
 			 $extraWhere
-             $groupBy
+			 $groupBy
+       $having
 			 $order
 			 $limit";
         }else{
@@ -251,7 +253,8 @@ class SSP {
 			 $where
 			 $extraWhere
 			 $groupBy
-             $order
+       $having
+			 $order
 			 $limit";
         }
 
@@ -263,14 +266,11 @@ class SSP {
         );
         $recordsFiltered = $resFilterLength[0][0];
 
-         // Total data set length
-        $count_request = "SELECT COUNT(`{$primaryKey}`)";
-        if($joinQuery){
-          $count_request .= $joinQuery;
-        } else {
-          $count_request .= "FROM   `$table`";
-        }
-        $resTotalLength = SSP::sql_exec( $db,$count_request);
+        // Total data set length
+        $resTotalLength = SSP::sql_exec( $db,
+            "SELECT COUNT(`{$primaryKey}`)
+			 FROM   `$table`"
+        );
         $recordsTotal = $resTotalLength[0][0];
 
 

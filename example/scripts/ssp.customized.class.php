@@ -212,6 +212,8 @@ class SSP {
      *  @param  array $columns Column information array
      *  @param  array $joinQuery Join query String
      *  @param  string $extraWhere Where query String
+     *  @param  string $groupBy groupBy by any field will apply
+     *  @param  string $having HAVING by any condition will apply
      *
      *  @return array  Server-side processing response array
      *
