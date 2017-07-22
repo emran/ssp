@@ -216,7 +216,7 @@ class SSP {
      *  @return array  Server-side processing response array
      *
      */
-    static function simple ( $request, $sql_details, $table, $primaryKey, $columns, $joinQuery = NULL, $extraWhere = '', $groupBy = '')
+    static function simple ( $request, $sql_details, $table, $primaryKey, $columns, $joinQuery = NULL, $extraWhere = '', $groupBy = '', $having = '')
     {
         $bindings = array();
         $db = SSP::sql_connect( $sql_details );
@@ -229,9 +229,11 @@ class SSP {
 		// IF Extra where set then set and prepare query
         if($extraWhere)
             $extraWhere = ($where) ? ' AND '.$extraWhere : ' WHERE '.$extraWhere;
-        
+
         $groupBy = ($groupBy) ? ' GROUP BY '.$groupBy .' ' : '';
-        
+
+        $having = ($having) ? ' HAVING '.$having .' ' : '';
+
         // Main query to actually get the data
         if($joinQuery){
             $col = SSP::pluck($columns, 'db', $joinQuery);
@@ -240,6 +242,7 @@ class SSP {
 			 $where
 			 $extraWhere
 			 $groupBy
+       $having
 			 $order
 			 $limit";
         }else{
@@ -248,10 +251,11 @@ class SSP {
 			 $where
 			 $extraWhere
 			 $groupBy
+       $having
 			 $order
 			 $limit";
         }
-        
+
         $data = SSP::sql_exec( $db, $bindings,$query);
 
         // Data set length after filtering

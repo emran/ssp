@@ -2,7 +2,7 @@
 ##Customized SSP Class For [Datatables](http://datatables.net/) Library
 
 
-SSP is a Server Side Processing class for [Datatables](http://datatables.net/) Library v1.10.0. 
+SSP is a Server Side Processing class for [Datatables](http://datatables.net/) Library v1.10.0.
 I have customized it for include JOIN, Extra condition and Rename acceptance within query.
 
 While using Datatables with complex query, I faced problem like these
@@ -17,6 +17,7 @@ So due to allow complex query, I have changed the [SSP class](https://github.com
  - I have changed Column ARRAY format to handle get data from multiple table. Add TWO new index for complex query handle.
  - Add Extra Where condition through SSP Class.
  - You can Group by the result via sending Query through simple function of SSP Class.
+ ##### - You can use Having as well same like Group By
 
 
 ### New formatted COLUMN Array #####
@@ -29,20 +30,20 @@ So due to allow complex query, I have changed the [SSP class](https://github.com
         array( 'db' => '`cn`.`name`',    'dt' => 4, 'field' => 'currency_name','as' => 'currency_name' )
 
         array( 'db' => '`c`.`id_client`', 'dt' => 5, 'formatter' => function( $d, $row ) {
-                    return '<a href="EDIT_URL"><span class="label label-inverse"><i class="fa fa-edit"></i> Edit</span></a>';}, 
+                    return '<a href="EDIT_URL"><span class="label label-inverse"><i class="fa fa-edit"></i> Edit</span></a>';},
                 'field' => 'id_client' )
 
 ### How to Use #####
 
     $joinQuery = "FROM `{$table}` AS `c` LEFT JOIN `currency_names` AS `cn` ON (`cn`.`id` = `c`.`id_currency`)";
     $extraCondition = "`id_client`=".$ID_CLIENT_VALUE;
-    
+
     echo json_encode(
            SSP::simple( $_GET, $sql_details, $table, $primaryKey, $columns, $joinQuery, $extraCondition)
          );
-         
+
 
 I have described the changes at [My personal blog](https://emranulhadi.wordpress.com/2014/06/05/join-and-extra-condition-support-at-datatables-library-ssp-class/). You can also check there to see details.
 
-Hope it will help... 
+Hope it will help...
 Thanks

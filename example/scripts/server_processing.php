@@ -61,8 +61,10 @@ $sql_details = array(
 require('ssp.customized.class.php' );
 
 $joinQuery = "FROM `user` AS `u` JOIN `user_details` AS `ud` ON (`ud`.`user_id` = `u`.`id`)";
-$extraWhere = "`u`.`salary` >= 90000";        
+$extraWhere = "`u`.`salary` >= 90000";
+$groupBy = "`u`.`office`";
+$having = "`u`.`salary` >= 140000";
 
 echo json_encode(
-	SSP::simple( $_GET, $sql_details, $table, $primaryKey, $columns, $joinQuery, $extraWhere )
+	SSP::simple( $_GET, $sql_details, $table, $primaryKey, $columns, $joinQuery, $extraWhere, $groupBy, $having )
 );
