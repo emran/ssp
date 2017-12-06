@@ -1,5 +1,5 @@
 
-##Customized SSP Class For [Datatables](http://datatables.net/) Library
+## Customized SSP Class For [Datatables](http://datatables.net/) Library ##
 
 
 SSP is a Server Side Processing class for [Datatables](http://datatables.net/) Library v1.10.0.
