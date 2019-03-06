@@ -60,7 +60,7 @@ $sql_details = array(
 // require( 'ssp.class.php' );
 require('ssp.customized.class.php' );
 
-$joinQuery = "FROM `user` AS `u` JOIN `user_details` AS `ud` ON (`ud`.`user_id` = `u`.`id`)";
+$joinQuery = "FROM `user` AS `u` LEFT JOIN `user_details` AS `ud` ON (`ud`.`user_id` = `u`.`id`)";
 $extraWhere = "`u`.`salary` >= 90000";
 $groupBy = "`u`.`office`";
 $having = "`u`.`salary` >= 140000";
