@@ -210,7 +210,7 @@ class SSP {
      *  @param  string $table SQL table to query
      *  @param  string $primaryKey Primary key of the table
      *  @param  array $columns Column information array
-     *  @param  array $joinQuery Join query String
+     *  @param  string $joinQuery Join query String
      *  @param  string $extraWhere Where query String
      *  @param  string $groupBy groupBy by any field will apply
      *  @param  string $having HAVING by any condition will apply
