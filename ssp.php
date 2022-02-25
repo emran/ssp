@@ -150,7 +150,7 @@ class SSP {
         if ( isset($request['search']) && $request['search']['value'] != '' ) {
             $str = $request['search']['value'];
 
-            for ( $i=0, $ien=count($request['columns']) ; $i<$ien ; $i++ ) {
+            for ( $i=0, $ien=count($request['columns'] ?? []) ; $i<$ien ; $i++ ) {
                 $requestColumn = $request['columns'][$i];
                 $columnIdx = array_search( $requestColumn['data'], $dtColumns );
                 $column = $columns[ $columnIdx ];
@@ -163,7 +163,7 @@ class SSP {
         }
 
         // Individual column filtering
-        for ( $i=0, $ien=count($request['columns']) ; $i<$ien ; $i++ ) {
+        for ( $i=0, $ien=count($request['columns'] ?? []) ; $i<$ien ; $i++ ) {
             $requestColumn = $request['columns'][$i];
             $columnIdx = array_search( $requestColumn['data'], $dtColumns );
             $column = $columns[ $columnIdx ];
@@ -278,7 +278,7 @@ class SSP {
          * Output
          */
         return array(
-            "draw"            => intval( $request['draw'] ),
+            "draw"            => intval( $request['draw'] ?? 0 ),
             "recordsTotal"    => intval( $recordsTotal ),
             "recordsFiltered" => intval( $recordsFiltered ),
             "data"            => SSP::data_output( $columns, $data, $joinQuery )
