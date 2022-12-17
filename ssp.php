@@ -109,6 +109,10 @@ class SSP {
                 $columnIdx = array_search( $requestColumn['data'], $dtColumns );
                 $column = $columns[ $columnIdx ];
 
+                if (strpos($column['db'], 'AS') !== FALSE) {
+                    $column['db'] = explode('AS', $column['db'])[0];
+                }
+
                 if ( $requestColumn['orderable'] == 'true' ) {
                     $dir = $request['order'][$i]['dir'] === 'asc' ?
                         'ASC' :
@@ -155,6 +159,10 @@ class SSP {
                 $columnIdx = array_search( $requestColumn['data'], $dtColumns );
                 $column = $columns[ $columnIdx ];
 
+                if (strpos($column['db'], 'AS') !== FALSE) {
+                    $column['db'] = explode('AS', $column['db'])[0];
+                }
+
                 if ( $requestColumn['searchable'] == 'true' ) {
                     $binding = SSP::bind( $bindings, '%'.$str.'%', PDO::PARAM_STR );
                     $globalSearch[] = ($isJoin) ? $column['db']." LIKE ".$binding : "`".$column['db']."` LIKE ".$binding;
@@ -167,6 +175,10 @@ class SSP {
             $requestColumn = $request['columns'][$i];
             $columnIdx = array_search( $requestColumn['data'], $dtColumns );
             $column = $columns[ $columnIdx ];
+
+            if (strpos($column['db'], 'AS') !== FALSE) {
+                    $column['db'] = explode('AS', $column['db'])[0];
+                }
 
             $str = $requestColumn['search']['value'];
 
