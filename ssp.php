@@ -352,7 +352,7 @@ class SSP {
             $stmt->execute();
         }
         catch (PDOException $e) {
-            SSP::fatal( "An SQL error occurred: ".$e->getMessage() );
+            SSP::fatal( "An SQL error occurred: " . $e->getMessage() . "\n\nTRACE:\n" . $e->getTraceAsString() . "\n\nQUERY:\n" . $sql );
         }
 
         // Return all
